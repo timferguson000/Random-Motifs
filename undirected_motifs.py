@@ -32,9 +32,11 @@ rho_id = np.identity(3)
 
 rho_conn = np.array([[0,1,0],
                      [2*n-4,n-2,4],
-                     [0,n-3,2^n-8]])
+                     [0,n-3,2*n-8]])
 
-rho_disj = np.array([[0,0,1],[0,n-3,2*n-8],[(n-2)*(n-3)/2,(n-3)*(n-4)/2,(n-4)*(n-5)/2]])
+rho_disj = np.array([[0,0,1],
+                     [0,n-3,2*n-8],
+                     [(n-2)*(n-3)/2,(n-3)*(n-4)/2,(n-4)*(n-5)/2]])
 
 # constucts rho matrix
 
