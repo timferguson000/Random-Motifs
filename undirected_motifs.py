@@ -57,10 +57,10 @@ vec = np.zeros(3)
 
 for i in range(3):
     for j in range(3):
-        gram[i,j] = np.trace(rho_list[i]@rho_list[j])
+        gram[i,j] = np.trace(np.transpose(rho_list[i])@rho_list[j])
 
 for i in range(3):
-    vec[i] = np.trace(rho_root@rho_list[i])
+    vec[i] = np.trace(np.transpose(rho_root)@rho_list[i])
     
 [b_id,b_conn,b_disj] = np.linalg.solve(gram, vec)
 
