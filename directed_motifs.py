@@ -391,19 +391,8 @@ directed_random_graph(6, 0.1, 0, 0, disp_iid=True, disp_corr=True)
           
 # parameters: n (int), edges (int list)
 # returns: adjacency matrix for edges
-
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-def directed_adj(n, edges):???????????
+      
+def directed_adj(n, edges):
 
   adj = np.zeros((n,n)).astype(int)
 
@@ -411,23 +400,12 @@ def directed_adj(n, edges):???????????
   while k < len(edges):
     if edges[k] == 1:
       i, j = directed_edge_inv(k)
-      adj[i,j] = adj[j,i] = 1
+      adj[i,j] = 1
   k += 1
 
   return adj
           
 # example code
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-# optional: a_disj = -4*a_conn/(n-3) to make 2*(n-2)*a_conn + ((n-2)*(n-3)/2)*a_disj = 0????????????
 
 n = 10
 
@@ -438,81 +416,50 @@ directed_row_col_conn(n)
 # for given n generate random graphs for any value of p and any values of
 # a_recip, a_div, a_chain, a_anti, a_conv, and a_disj for which square root exists
 
-edges = undirected_random_graph(n,0.25,0,0,0,0,0,0)
+edges = directed_random_graph(n,0.25,0,0,0,0,0,0)
 adj = directed_adj(n, edges)
+graph = nx.from_numpy_matrix(adj)
           
-          
-          
-          
-          
-          
-          
-          
-          
-graph = nx.from_numpy_matrix(adj)?????????????
-
-print(\"edges \\n{} \\n \\nadj \\n{} \\n\".format(edges, adj))
-      
-      
-      
-      
-      
-      
-      
-      
-nx.draw(graph)?????????????????
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-      
+print("edges \\n{} \\n \\nadj \\n{} \\n".format(edges, adj))    
+nx.draw(graph)
+       
 # example code
-# optional: a_disj = -4*a_conn/(n-3) to make 2*(n-2)*a_conn + ((n-2)*(n-3)/2)*a_disj = 0????????
 
 n = 100
 
 # create global variable R_conn for given n
 
-undirected_row_col_conn(n)
+directed_row_col_conn(n)
 
 # for given n generate random graphs for any value of p and any values of
 # a_conn and a_disj for which square root exists
 
-edges = undirected_random_graph(n,0.1,0,0)
-adj = undirected_adj(n, edges)
+edges = directed_random_graph(n,0.1,0,0,0,0,0,0)
+adj = directed_adj(n, edges)
 graph = nx.from_numpy_matrix(adj)
 
 nx.draw(graph)
       
 # example code
 
-edges = undirected_random_graph(n,0.1,0.00001,0)
-adj = undirected_adj(n, edges)
+edges = directed_random_graph(n,0.1,0.1,0,0,0,0,0)
+adj = directed_adj(n, edges)
 graph = nx.from_numpy_matrix(adj)
 
 nx.draw(graph)
       
 # example code
 
-edges = undirected_random_graph(n,0.05,0,0)
-adj = undirected_adj(n, edges)
+edges = directed_random_graph(n,0.1,0,0,0.1,0.1,0,0)
+adj = directed_adj(n, edges)
 graph = nx.from_numpy_matrix(adj)
 
 nx.draw(graph)
       
 # example code
 
-edges = undirected_random_graph(n,0.05,0.00001,0)
-adj = undirected_adj(n, edges)
+edges = directed_random_graph(n,0.1,0,0,0,0,0.1,0)
+adj = directed_adj(n, edges)
 graph = nx.from_numpy_matrix(adj)
 
 nx.draw(graph)
