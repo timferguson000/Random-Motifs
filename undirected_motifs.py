@@ -34,7 +34,7 @@ def undirected_rho_list(n, disp=False):
 
   # display rho matrices if disp=True
   if disp:
-    print(\"rho_id \\n{} \\n \\nrho_conn \\n{} \\n \\nrho_disj \\n{}\".format(rho_id, rho_conn, rho_disj))
+    print("rho_id \\n{} \\n \\nrho_conn \\n{} \\n \\nrho_disj \\n{}".format(rho_id, rho_conn, rho_disj))
 
   # returns list of rho matrices
   return [rho_id, rho_conn, rho_disj]
@@ -96,7 +96,7 @@ print(square_root_coefficients(10, 1, 0))
 # parameters: i (int), j (int)
 # returns: k (int); labeled undirected edge connecting nodes i and j
 
-def edge(i,j):
+def undirected_edge(i,j):
   if i > j:
     return int(i*(i-1)/2 + j)\n",
   else:
@@ -105,7 +105,7 @@ def edge(i,j):
 # parameters: k (int)
 # returns: i (int), j (int); labeled nodes connected by undirected edge k with i > j
 
-def edge_inv(k):
+def undirected_edge_inv(k):
   i = 1
   while (i+1)*i/2 <= k:
     i += 1
@@ -126,9 +126,9 @@ for i in range(0,n):
     for k in range(0,j):
 
     # three undirected edges connecting three nodes
-    e_1 = edge(i,j)\n",
-    e_2 = edge(j,k)\n",
-    e_3 = edge(k,i)\n",
+    e_1 = undirected_edge(i,j)
+    e_2 = undirected_edge(j,k)
+    e_3 = undirected_edge(k,i)
 
     # non-zero entries for connected motif
     row[index] = e_1
@@ -187,7 +187,7 @@ def undirected_random_graph(n, p, a_conn, a_disj, disp_iid=False, disp_corr=Fals
 
   # displays x_iid if disp_iid=True
   if disp_iid:
-    print(\"x_iid \\n{}\".format(x_iid))
+    print("x_iid \\n{}".format(x_iid))
 
   # computes coefficients of positive definite square root
   [b_id, b_conn, b_disj] = square_root_coefficients(n, a_conn, a_disj)
@@ -197,7 +197,7 @@ def undirected_random_graph(n, p, a_conn, a_disj, disp_iid=False, disp_corr=Fals
 
   # displays x_corr if disp_corr=True
   if disp_corr:
-    print(\"x_corr \\n{}\".format(x_corr))
+    print("x_corr \\n{}".format(x_corr))
 
   # t = threshold value for including edge
   t = norm.ppf(p)
@@ -212,8 +212,6 @@ def undirected_random_graph(n, p, a_conn, a_disj, disp_iid=False, disp_corr=Fals
   
 undirected_row_col_conn(6)
 
-print(R_conn)
-
 undirected_random_graph(6, 0.1, 0, 0, disp_iid=True, disp_corr=True)
           
 # parameters: n (int), edges (int list)
@@ -226,7 +224,7 @@ def undirected_adj(n, edges):
   k = 0
   while k < len(edges):
     if edges[k] == 1:
-      i, j = edge_inv(k)
+      i, j = undirected_edge_inv(k)
       adj[i,j] = adj[j,i] = 1
   k += 1
 
