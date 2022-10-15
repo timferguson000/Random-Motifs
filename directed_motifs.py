@@ -145,33 +145,32 @@ print(square_root_coefficients(10, 0, 0))
 print(square_root_coefficients(10, 0.1, 0))
 print(square_root_coefficients(10, 1, 0))
           
-# implements edge ordering e_0 = 1 -> 2, e_1 = 1 -> 3, ..., e_{n-2} = 1 -> n,
-# e_{n-1} = 2 -> 1, e_n = 2 -> 3, ..., e_{2(n-1)-1} = 2 -> n
-# edge e_k = i -> j where k = (i-1)*(n-1) + jp - 1 with jp = j if j < i and jp = j-1 if j > i
+# implements edge ordering e_0 = 0 -> 1, e_1 = 0 -> 2, ..., e_{n-2} = 0 -> n-1,
+# e_{n-1} = 1 -> 0, e_n = 1 -> 2, ..., e_{2(n-1)-1} = 1 -> n-1
+# edge e_k = i -> j where k = i*(n-1) + jp with jp = j if j < i and jp = j-1 if j > i
 
 # parameters: i (int), j (int)
 # returns: k (int); labeled directed edge from node i to node j
           
 def directed_edge(i,j):
   if j < i:
-    return (i-1)*(n-1) + j - 1
+    return i*(n-1) + j
   else:
-    return (i-1)*(n-1) + j - 2    
+    return i*(n-1) + j - 1    
 
 # parameters: k (int)
 # returns: i (int), j (int); i tail and j head of directed edge k
-
           
-          
-          
-          
-          
-          
-          
-          
-          
-def directed_edge_inv(k): ??????????????
-  return
+def directed_edge_inv(k):
+    i = 0
+    while (i+1)*(n-1) <= k:
+        i += 1
+    jp = k - i*(n-1)
+    if jp < i:
+        j = jp
+    else:
+        j = jp + 1
+    return i, j
   
 # parameters: n (int)
 # returns: nothing; constructs global variables R_recip, R_div, R_chain, R_anti, R_conv
