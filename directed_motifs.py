@@ -144,113 +144,200 @@ def square_root_coefficients(n, a_recip, a_div, a_chain, a_anti, a_conv, a_disj)
 print(square_root_coefficients(10, 0, 0))
 print(square_root_coefficients(10, 0.1, 0))
 print(square_root_coefficients(10, 1, 0))
-
           
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-# implements edge ordering e_0 = 1 <-> 0, e_1 = 2 <-> 0, e_2 = 2 <-> 1,
-# e_3 = 3 <-> 0, e_4 = 3 <-> 1, ..., e_{n*(n-1)/2-1} = n-1 <-> n-2
-# edge e_k = i <-> j where k = max*(max-1)/2 + min with max = max(i,j) and min = min(i,j)
-          
-          
-          
-          
+# implements edge ordering e_0 = 1 -> 2, e_1 = 1 -> 3, ..., e_{n-2} = 1 -> n,
+# e_{n-1} = 2 -> 1, e_n = 2 -> 3, ..., e_{2(n-1)-1} = 2 -> n
+# edge e_k = i -> j where k = (i-1)*(n-1) + jp - 1 with jp = j if j < i and jp = j-1 if j > i
 
 # parameters: i (int), j (int)
 # returns: k (int); labeled directed edge from node i to node j
-
+          
 def directed_edge(i,j):
-  
-          
-          
-          
+  if j < i:
+    return (i-1)*(n-1) + j - 1
+  else:
+    return (i-1)*(n-1) + j - 2    
 
 # parameters: k (int)
 # returns: i (int), j (int); i tail and j head of directed edge k
 
-def directed_edge_inv(k):
+          
+          
+          
+          
+          
+          
+          
+          
+          
+def directed_edge_inv(k): ??????????????
+  return
   
-          
-          
-          
-          
 # parameters: n (int)
 # returns: nothing; constructs global variables R_recip, R_div, R_chain, R_anti, R_conv
 
 def directed_row_col_conn(n):
 
+  # initialize arrays for length         
+  data_recip = row_recip = col_recip = np.ones(n*(n-1))
+  index_recip = 0
+
+  for i in range(1,n+1):
+    for j in range(1,i):
+
+      # two directed edges connecting two nodes
+      e_1 = edge(i,j)
+      e_2 = edge(j,i)
+
+      # non-zero entries for reciprocal motif
+      row_recip[index_recip] = e_1
+      col_recip[index_recip] = e_2
+      index_recip += 1
           
+      row_recip[index_recip] = e_2
+      col_recip[index_recip] = e_1
+      index_recip += 1
           
+  # initialize arrays for length        
+  data_div = row_div = col_div = np.ones(n*(n-1)*(n-2))
+  index_div = 0
+
+  data_chain = row_chain = col_chain = np.ones(n*(n-1)*(n-2))
+  index_chain = 0
+
+  data_anti = row_anti = col_anti = np.ones(n*(n-1)*(n-2))
+  index_anti = 0
+
+  data_conv = row_conv = col_conv = np.ones(n*(n-1)*(n-2))
+  index_conv = 0
+
+  for i in range(1,n+1):
+    for j in range(1,i):
+      for k in range(1,j):
           
+        # six directed edges connecting three nodes
+        e_1 = edge(i,j)
+        e_2 = edge(j,i)
+        e_3 = edge(j,k)
+        e_4 = edge(k,j)
+        e_5 = edge(k,i)
+        e_6 = edge(i,k)
+
+        # non-zero entries for divergent motif
+        row_div[index_div] = e_1
+        col_div[index_div] = e_6
+        index_div += 1
+
+        row_div[index_div] = e_6
+        col_div[index_div] = e_1
+        index_div += 1
+
+        row_div[index_div] = e_2
+        col_div[index_div] = e_3
+        index_div += 1
+
+        row_div[index_div] = e_3
+        col_div[index_div] = e_2
+        index_div += 1
+
+        row_div[index_div] = e_4
+        col_div[index_div] = e_5
+        index_div += 1
+
+        row_div[index_div] = e_5
+        col_div[index_div] = e_4
+        index_div += 1
+
+        # non-zero entries for chain motif
+        row_chain[index_chain] = e_1
+        col_chain[index_chain] = e_3
+        index_chain += 1
+
+        row_chain[index_chain] = e_3
+        col_chain[index_chain] = e_5
+        index_chain += 1
+
+        row_chain[index_chain] = e_5
+        col_chain[index_chain] = e_1
+        index_chain += 1
+
+        row_chain[index_chain] = e_6
+        col_chain[index_chain] = e_4
+        index_chain += 1
+
+        row_chain[index_chain] = e_4
+        col_chain[index_chain] = e_2
+        index_chain += 1
+
+        row_chain[index_chain] = e_2
+        col_chain[index_chain] = e_6
+        index_chain += 1
+
+        # non-zero entries for anti chain motif
+        row_anti[index_anti] = e_3
+        col_anti[index_anti] = e_1
+        index_anti += 1
+
+        row_anti[index_anti] = e_5
+        col_anti[index_anti] = e_3
+        index_anti += 1
+
+        row_anti[index_anti] = e_1
+        col_anti[index_anti] = e_5
+        index_anti += 1
+
+        row_anti[index_anti] = e_4
+        col_anti[index_anti] = e_6
+        index_anti += 1
+
+        row_anti[index_anti] = e_2
+        col_anti[index_anti] = e_4
+        index_anti += 1
+
+        row_anti[index_anti] = e_6
+        col_anti[index_anti] = e_2
+        index_anti += 1
+
+        # non-zero entries for divergent motif
+        row_conv[index_conv] = e_2
+        col_conv[index_conv] = e_5
+        index_conv += 1
+
+        row_conv[index_conv] = e_5
+        col_conv[index_conv] = e_2
+        index_conv += 1
+
+        row_conv[index_conv] = e_1
+        col_conv[index_conv] = e_4
+        index_conv += 1
+
+        row_conv[index_conv] = e_4
+        col_conv[index_conv] = e_1
+        index_conv += 1
+
+        row_conv[index_conv] = e_3
+        col_conv[index_conv] = e_6
+        index_conv += 1
+
+        row_conv[index_conv] = e_6
+        col_conv[index_conv] = e_3
+        index_conv += 1
+    
+  # m = number of possible undirected edges
+  m = n*(n-1)
+
+  # global variables R_div, R_chain, R_anti, R_conv, and R_disj
+  global R_div, R_chain, R_anti, R_conv, R_disj
           
-          
-# initialize arrays for length
-data = row = col = np.ones(n*(n-1)*(n-2)).astype(int)
-index = 0
-
-for i in range(0,n):
-  for j in range(0,i):
-    for k in range(0,j):
-
-    # three undirected edges connecting three nodes
-    e_1 = edge(i,j)\n",
-    e_2 = edge(j,k)\n",
-    e_3 = edge(k,i)\n",
-
-    # non-zero entries for connected motif
-    row[index] = e_1
-    col[index] = e_2
-    index += 1
-
-    row[index] = e_2
-    col[index] = e_1
-    index += 1
-
-    row[index] = e_2
-    col[index] = e_3
-    index += 1
-
-    row[index] = e_3
-    col[index] = e_2
-    index += 1
-
-    row[index] = e_3
-    col[index] = e_1
-    index += 1
-
-    row[index] = e_1
-    col[index] = e_3
-    index += 1
-
-    # m = number of possible undirected edges
-    m = int(n*(n-1)/2)
-
-    # global variable R_conn
-    global R_conn
-
-    # constructs sparse matrix R_conn
-    R_conn = csr_matrix((data, (row, col)), shape = (m, m)).toarray()
-
-    # returns nothing
-    return  
-
-          
-          
-          
-          
-          
-          
-          
+  # constructs sparse matrix R_conn
+  R_recip = csr_matrix((data_recip, (row_recip, col_recip)), shape = (m, m)).toarray()
+  R_div = csr_matrix((data_div, (row_div, col_div)), shape = (m, m)).toarray()
+  R_chain = csr_matrix((data_chain, (row_chain, col_chain)), shape = (m, m)).toarray()
+  R_anti = csr_matrix((data_anti, (row_anti, col_anti)), shape = (m, m)).toarray()
+  R_conv = csr_matrix((data_conv, (row_conv, col_conv)), shape = (m, m)).toarray()
+  
+  # returns nothing
+  return        
           
 # example code
   
@@ -301,18 +388,23 @@ def directed_random_graph(n, p, a_recip, a_div, a_chain, a_anti, a_conv, a_disj,
   
 directed_row_col_conn(6)
 
-print(R_recip)
-print(R_div)
-print(R_chain)
-print(R_anti)
-print(R_conv)
-
 directed_random_graph(6, 0.1, 0, 0, disp_iid=True, disp_corr=True)
           
 # parameters: n (int), edges (int list)
 # returns: adjacency matrix for edges
 
-def directed_adj(n, edges):
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+def directed_adj(n, edges):???????????
 
   adj = np.zeros((n,n)).astype(int)
 
@@ -326,6 +418,16 @@ def directed_adj(n, edges):
   return adj
           
 # example code
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
 # optional: a_disj = -4*a_conn/(n-3) to make 2*(n-2)*a_conn + ((n-2)*(n-3)/2)*a_disj = 0????????????
 
 n = 10
@@ -344,13 +446,38 @@ adj = directed_adj(n, edges)
           
           
           
-graph = nx.from_numpy_matrix(adj)
+          
+          
+          
+          
+graph = nx.from_numpy_matrix(adj)?????????????
 
 print(\"edges \\n{} \\n \\nadj \\n{} \\n\".format(edges, adj))
-nx.draw(graph)
+      
+      
+      
+      
+      
+      
+      
+      
+nx.draw(graph)?????????????????
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
       
 # example code
-# optional: a_disj = -4*a_conn/(n-3) to make 2*(n-2)*a_conn + ((n-2)*(n-3)/2)*a_disj = 0
+# optional: a_disj = -4*a_conn/(n-3) to make 2*(n-2)*a_conn + ((n-2)*(n-3)/2)*a_disj = 0????????
 
 n = 100
 
@@ -390,90 +517,3 @@ adj = undirected_adj(n, edges)
 graph = nx.from_numpy_matrix(adj)
 
 nx.draw(graph)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# WORK IN PROGRESS!!!
-
-# libraries
-
-import numpy as np
-from scipy.sparse import csr_matrix
-from scipy.stats import norm
-
-
-
-# n = number of vertices
-# m = number of possible directed edges
-
-n = 25
-m = n*(n-1)
-
-# p = probability of an edge being included
-# t = threshold value for including edge
-
-p = 0.001
-t = norm.ppf(p)
-
-# a_id = 1 (this is a choice for normalization and is the result of our choice for t)
-# p^2(1 + a_recip) = probability of the reciprocal motif
-# p^2(1 + a_conv) = probability of the convergent motif
-# p^2(1 + a_div) = probability of the divergent motif
-# p^2(1 + a_chain) = probability of the chain motif
-# p^2(1 + a_disj) = probability of the disjoint motif (this is technically
-# not a motif but is included to complete the coherent configuration)
-
-a_id = 1
-a_recip = 0
-a_div = 0
-a_chain = 0
-a_conv = 0
-a_disj = 0
