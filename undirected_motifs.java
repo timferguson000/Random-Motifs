@@ -165,12 +165,12 @@ public class UndirectedMotifs {
            Parameters
         */
         
-        int n = 10; // Number of vertices
+        int n = 100; // Number of vertices
         double p = 0.1; // Probability of adding edge
         double t = -1.28; // t is the quantile for p under the standard normal distribution
         double a_0 = 1.0; // Normalization
         double a_1 = 0.1; // p^2*(1+a_1) is covariance of connected motif
-        double a_2 = 0.0; // p^2*(1+a_2) is covariance of disjoint motif
+        double a_2 = -0.001; // p^2*(1+a_2) is covariance of disjoint motif
         
         /*
            Calls coefficientSqrt
