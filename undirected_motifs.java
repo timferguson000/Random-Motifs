@@ -238,7 +238,8 @@ public class UndirectedMotifs {
             }
             
             /*
-               Final result: Graph object "graph" (undirected graph) and double[][] object "adj" (adjacency matrix).
+               Final result:
+               Graph object "graph" (undirected graph) and double[][] object "adj" (adjacency matrix).
                Can use package jgrapht to display or apply graph algorithms to Graph object "graph".
             */
         }
