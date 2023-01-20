@@ -11,7 +11,7 @@
     Complexity analysis (let n denote the number of vertices in the random graph):
     The algorithm requires O(n^2) storage which is best possible since graphs from the desired distribution are dense (i.e. have order n^2 edges).
     The algorithm requries O(n^3) calculations which is the same complexity as the motifs of a graph with n vertices. Note that these calculations occur
-    in three main stages the first of which is O(1) while the second two are both O(n^3) but can be completed with a parallel architecture.
+    in three main stages the first of which is O(1) while the second two are O(n^2) and O(n^3) but can be completed with a parallel architecture.
 
     Journal publication: https://www.sciencedirect.com/science/article/abs/pii/S0167278921002657
     arXiv preprint: https://arxiv.org/abs/1808.05076
