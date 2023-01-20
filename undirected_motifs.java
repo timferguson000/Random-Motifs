@@ -150,7 +150,7 @@ public class UndirectedMotifs {
     }
     
     /*
-       Sets parameters n, p, a_0, a_1, a_2
+       Sets parameters n, p, t, a_0, a_1, a_2
        Determines if the parameters n, a_0, a_1, a_2 are admissible
     
        If parameters are admissible:
